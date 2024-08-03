@@ -10,6 +10,7 @@ function NavBar({ user }) {
             <ul className='desktop-menu'>
                 <li><Link to='/'>Home</Link></li>
                 <li><Link to='/about-us'>About Us</Link></li>
+                { user && <li><Link to='/profile'>Profile</Link></li> }
                 { user ? <LogOut/> : <li><Link to='/sign-up'>Log In</Link></li> }
             </ul>
         </nav>

@@ -12,6 +12,8 @@ import OrderPage from './components/pages/OrderPage';
 import ReviewPage from './components/pages/ReviewPage';
 import AuthComponent from './components/AuthComponent';
 import ProfilePage from './components/pages/ProfilePage';
+import ProtectedRoute from './components/ProtectedRoute';
+import PublicOnlyRoute from './components/PublicOnlyRoute';
 
 
 function App() {
@@ -29,13 +31,34 @@ function App() {
           <Route path="/order" element={<OrderPage />} />
 
           {/* TO BE PROTECTED - USER MUST NOT BE LOGGED IN */}
-          <Route path="/sign-up" element={<AuthComponent />} />
+          <Route path="/sign-up" 
+            element=
+            {
+              <PublicOnlyRoute>
+                <AuthComponent />
+              </PublicOnlyRoute>
+            } 
+          />
 
           {/* TO BE PROTECTED - USER MUST BE LOGGED IN*/}
-          <Route path="/profile" element={<ProfilePage/>} />    
-          <Route path="/review" element={<ReviewPage />} />
+          <Route path="/profile" 
+            element=
+            {
+              <ProtectedRoute>
+                <ProfilePage user={user}/>
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route path="/review" 
+            element=
+            {
+              <ProtectedRoute>
+                <ReviewPage />
+              </ProtectedRoute>
+            } 
+          />
           
-          {/* TO DO - ADD LOG IN AND SIGN UP ROUTES! */}
         </Routes>
       </main>
       <Footer />
