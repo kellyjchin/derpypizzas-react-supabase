@@ -1,0 +1,13 @@
+main {
+  max-width: 1920px;
+  min-height: 75vh;
+  /* background-color: red; */
+  padding: 40px;
+}
+
+footer {
+  border-top: thin black ridge;
+  text-align: center;
+  padding: 10px;
+  /* background-color: blue; */
+}

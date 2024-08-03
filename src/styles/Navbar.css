@@ -1,0 +1,28 @@
+nav {
+    background-color: green;
+    border-bottom: thin black ridge;
+}
+
+nav li {
+    list-style-type: none;
+}
+
+nav a, nav button {
+    text-decoration: none;
+    color: black;
+    font-family: unset;
+    background-color: transparent;
+    border: unset;
+    font-size: 16px;
+    font-weight: 600;
+    padding: unset;
+    cursor: pointer;
+}
+
+nav ul {
+    display: flex;
+    column-gap: 20px;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 10px 30px 10px 0;;
+}

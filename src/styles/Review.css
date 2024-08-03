@@ -1,0 +1,10 @@
+.review {
+    border: black ridge thick;
+    padding: 0 10px 10px;
+    background-color: whitesmoke;
+    margin-bottom: 10px;
+}
+
+.review * {
+    padding-top: 10px;
+}
