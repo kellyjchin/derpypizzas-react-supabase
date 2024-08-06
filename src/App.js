@@ -30,7 +30,7 @@ function App() {
           <Route path="/" element={<Home user={user}/>} />
           <Route path="/order" element={<OrderPage />} />
 
-          {/* TO BE PROTECTED - USER MUST NOT BE LOGGED IN */}
+          {/*USER MUST NOT BE LOGGED IN TO ACCESS THESE*/}
           <Route path="/sign-up" 
             element=
             {
@@ -40,7 +40,7 @@ function App() {
             } 
           />
 
-          {/* TO BE PROTECTED - USER MUST BE LOGGED IN*/}
+          {/*USER MUST BE LOGGED IN TO ACCESS THESE*/}
           <Route path="/profile" 
             element=
             {
@@ -54,7 +54,7 @@ function App() {
             element=
             {
               <ProtectedRoute>
-                <ReviewPage />
+                <ReviewPage user={user}/>
               </ProtectedRoute>
             } 
           />

@@ -7,7 +7,8 @@ function Home({ user }) {
 
     return (
         <div className="homepage">
-            { user ? <h1>DERPY PIZZAS - Hello {user.email}!</h1> :  <h1>DERPY PIZZAS</h1>}
+            <h1>DERPY PIZZAS</h1>
+            { user && <p className='welcome-msg'>Welcome {user.email}</p>}
             <div className='row-container'>
                 <OrderTeaser user={user} />
                 <RecentReviewsContainer/>

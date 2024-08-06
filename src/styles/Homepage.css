@@ -1,5 +1,6 @@
-.homepage h1 {
+.homepage h1, .welcome-msg {
     text-align: center;
+    font-weight: bolder;
 }
 
 .row-container {
