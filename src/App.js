@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import AboutUs from './components/pages/AboutUs';
 import Footer from './components/Footer';
+import ProtectedRoute from './components/ProtectedRoute';
+import PublicOnlyRoute from './components/PublicOnlyRoute';
 import { useAuth } from './AuthContext';
 
 // Page Imports
@@ -12,8 +14,8 @@ import OrderPage from './components/pages/OrderPage';
 import ReviewPage from './components/pages/ReviewPage';
 import AuthComponent from './components/AuthComponent';
 import ProfilePage from './components/pages/ProfilePage';
-import ProtectedRoute from './components/ProtectedRoute';
-import PublicOnlyRoute from './components/PublicOnlyRoute';
+import ReceiptPage from './components/pages/ReceiptPage';
+
 
 
 function App() {
@@ -28,7 +30,8 @@ function App() {
         <Routes>
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/" element={<Home user={user}/>} />
-          <Route path="/order" element={<OrderPage />} />
+          <Route path="/order" element={<OrderPage user={user} />} />
+          <Route path="/receipt" element={<ReceiptPage />} />
 
           {/*USER MUST NOT BE LOGGED IN TO ACCESS THESE*/}
           <Route path="/sign-up" 

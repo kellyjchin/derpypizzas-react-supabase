@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import RecentReviewsContainer from "../containers/RecentReviewsContainer";
 
 function ProfilePage({ user }) {
 
@@ -14,6 +15,7 @@ function ProfilePage({ user }) {
             </div>
 
             <p>Here are all of the orders you've made</p>
+            <RecentReviewsContainer user={user}/>
             <p>Here are all of the reviews you've ever made</p>
         </div>
 

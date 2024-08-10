@@ -3,11 +3,18 @@ main {
   min-height: 75vh;
   /* background-color: red; */
   padding: 40px;
+  background-color: #FBC02D;
 }
 
 footer {
   border-top: thin black ridge;
   text-align: center;
   padding: 10px;
-  /* background-color: blue; */
+  background-color: #8D6E63 ;
+}
+
+.mushroom-bg {
+  border: black ridge thick;
+  padding: 20px;
+  background-color: whitesmoke;
 }

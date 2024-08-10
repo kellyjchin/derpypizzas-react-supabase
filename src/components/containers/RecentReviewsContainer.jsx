@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from "react";
 import Review from "../Review";
 import { supabase } from "../../supabaseClient";
+import { fetchReviews } from "../../helpers";
+import { useLocation } from "react-router-dom";
 
-function RecentReviewsContainer() {
-    // TEMP DUMMY DATA - TO BE REPLACED WITH ACTUAL DATA.
+function RecentReviewsContainer({ user }) {
     // TODO: Trim Body Review if it gets really long. Let's say 100 characters maybe?
+    const locationObj = useLocation();
+    const currentUrl = locationObj.pathname;
 
     const [reviews, setReviews] = useState([]);
     useEffect( () => {
-        async function fetchReviews() {
-            const { data, error } = await supabase
-              .from('Review')
-              .select('*')
-              .limit(3)
-              .order('created_at', { ascending: false }) // Order by created_at descending
-      
-            if (error) {
-              console.error('Error fetching reviews:', error);
-            } else {
-              setReviews(data);
-              console.log(data);
+        async function getReviews() {
+            let reviewData;
+            if (currentUrl === "/") {
+                reviewData = await fetchReviews();
+            }
+
+            if (currentUrl === "/profile") {
+                reviewData = await fetchReviews(user.email);
+            }
+
+            if(reviewData) {
+                setReviews(reviewData);
             }
         }
-        fetchReviews();
+        getReviews();
     }, []);
 
     return (
@@ -35,11 +38,13 @@ function RecentReviewsContainer() {
                         username={review.reviewer}
                         body={review.review_body}
                         rating={review.rating}
+                        date={'derp'}
+                        currentUrl={currentUrl}
                     /> 
                 ))
 
                 :
-                <p>Loading Recent reviews...</p>
+                <p>Loading Reviews...</p>
             }
             
         </div>
