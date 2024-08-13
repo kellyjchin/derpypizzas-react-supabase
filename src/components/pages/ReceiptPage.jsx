@@ -2,6 +2,8 @@ import React from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 
 function ReceiptPage() {
+
+  //  TODO MAYBE USE ORDER COMPONENT HERE
     const location = useLocation();
     const navigate = useNavigate();
     const orderData = location.state; 

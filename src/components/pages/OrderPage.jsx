@@ -54,8 +54,6 @@ function OrderPage({ user }) {
 
     const handleSubmit = async e => {
         // TODO
-        // if anonymous user, send them to a "receipt page"
-        // if signed in, store the order into the database and redirect to a "receipt page"
         // error and success message handling
 
         e.preventDefault();

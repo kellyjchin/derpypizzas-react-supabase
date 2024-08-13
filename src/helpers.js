@@ -33,12 +33,11 @@ export async function fetchOrders(user) {
         const { data, error } = await supabase
         .from('Order')
         .select('*')
-        .eq('reviewer', user)
+        .eq('order_user', user)
         .order('created_at', {ascending: false})
         if (error) {
             console.error('Error fetching data', error);
         }
-    
         return data;
     }
 }
