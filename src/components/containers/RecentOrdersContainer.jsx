@@ -11,7 +11,6 @@ function RecentOrdersContainer({ user }) {
         async function getOrders() {
             let ordersData = await fetchOrders(user.email);
             if(ordersData) {
-                console.log(ordersData);
                 setOrders(ordersData);
             }
         }

@@ -41,3 +41,19 @@ export async function fetchOrders(user) {
         return data;
     }
 }
+
+export async function fetchRewardBalance(user) {
+    if (user) {
+        console.log(user.id);
+        const { data, error } = await supabase
+        .from('profiles')
+        .select('reward_points')
+        .eq('user_id', user.id)
+        .single();
+        
+        if (error) {
+            console.error('Error fetching data', error);
+        }
+        return data;
+    }
+}

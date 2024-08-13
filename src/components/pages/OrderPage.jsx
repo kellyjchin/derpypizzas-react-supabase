@@ -1,12 +1,20 @@
 import '../../styles/Homepage.css'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
+import { fetchRewardBalance } from '../../helpers';
 
 function OrderPage({ user }) {
 
-    const navigate = useNavigate();
+    const [rewardBalance, setRewardBalance] = useState(100);
+    useEffect( () => {
+        const getRewardBalance = async () => {
+            const rewardData = await fetchRewardBalance(user);
+            // setRewardBalance(rewardBalance);
+        }
+        getRewardBalance();
+    }, [user])
 
     const [name, setName] = useState('');
     const handleNameChange = e => {
@@ -52,9 +60,20 @@ function OrderPage({ user }) {
 
     let totalPrice = (toppingPrice + sizePrice) * quantity;
 
-    const handleSubmit = async e => {
+
+
+
+
+
+    const navigate = useNavigate();
         // TODO
+        // handle adding more points when a user submits - FUNCTION SHOULD BE CREATED!
+        // calculate new rewards points balance
+        // handle applying discount
         // error and success message handling
+
+    const handleSubmit = async e => {
+
 
         e.preventDefault();
 
@@ -91,17 +110,7 @@ function OrderPage({ user }) {
 
     return (
         <div className="order-page">
-            <div>selected size - {size}</div>
-            <div>name is {name}</div>
-            <div>address: {address}</div>
-            {/* <div className='selected-tops'>
-                {
-                    selectedToppings.map( topping => (
-                        <li>{topping}</li>
-                    ))
-                }
-
-            </div> */}
+            <div>Reward point balance: {rewardBalance}</div>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>
                 <input type="text" id="name" name="name" required value={name} onChange={handleNameChange}/><br /><br />
