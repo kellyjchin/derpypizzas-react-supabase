@@ -62,10 +62,11 @@ function OrderPage({ user }) {
 
     let totalPrice = (toppingPrice + sizePrice) * quantity;
 
-        // TODO
-        // calculate new rewards points balance
-        // handle applying discount
-        // error and success message handling
+    // TODO
+    // calculate new rewards points balance - after subtracting
+    // handle applying discount
+    // error and success message handling
+    
     const navigate = useNavigate();
     const handleSubmit = async e => {
         e.preventDefault();
@@ -78,57 +79,56 @@ function OrderPage({ user }) {
             quantity: quantity,
             total_price: totalPrice
         }
+
+        if (!user) {
+            navigate('/receipt', { state: newOrder} );
+            return;
+        }
+          
+        let { data: profileExists, error: profileError } = await supabase
+        .from('profiles')
+        .select('reward_points')
+        .eq('user_id', user.id)
+        .single();
         
-        if (user) {
+        if (profileError && profileError.code !== 'PGRST116') {
+            console.error('Error fetching user profile:', error);
+            return;
+        }
             
-            let { data: profileExists, error: profileError } = await supabase
+        if (profileExists) {
+            let { error: pointsError } = await supabase
             .from('profiles')
-            .select('reward_points')
-            .eq('user_id', user.id)
-            .single();
-        
-            if (profileError && profileError.code !== 'PGRST116') {
-                console.error('Error fetching user profile:', error);
-                return;
-            }
+            .update({reward_points: totalPrice + rewardBalance})
+            .eq('user_id', user.id);
+        } 
             
-            if (profileExists) {
-                let { error: pointsError } = await supabase
-                .from('profiles')
-                .update({reward_points: totalPrice + rewardBalance})
-                .eq('user_id', user.id);
-            } 
-            
-            if (!profileExists) {
-                const { error } = await supabase.from('profiles').insert([
-                    { user_id: user.id, reward_points: totalPrice }
-                ]);
-            }
-
-
-
-            newOrder.order_user = user.email;
-            const { error } = await supabase.from('Order').insert([newOrder]);
-
-            if (error) {
-                console.error('Error inserting order:', error);
-            } else {
-                setName('');
-                setAddress('');
-                setSize('');
-                setSizePrice(0);
-                setToppingPrice(0);
-                setSelectedToppings([]);
-                setQuantity(1);
-            }
+        if (!profileExists) {
+            const { error } = await supabase.from('profiles').insert([
+                { user_id: user.id, reward_points: totalPrice }
+            ]);
         }
 
-        navigate('/receipt', { state: newOrder} )
+        newOrder.order_user = user.email;
+        const { error } = await supabase.from('Order').insert([newOrder]);
+
+        if (error) {
+            console.error('Error inserting order:', error);
+        } else {
+            setName('');
+            setAddress('');
+            setSize('');
+            setSizePrice(0);
+            setToppingPrice(0);
+            setSelectedToppings([]);
+            setQuantity(1);
+            navigate('/receipt', { state: newOrder} );
+        }
     }
 
     return (
         <div className="order-page">
-            <div>Reward point balance: {rewardBalance}</div>
+            { user && <div>Reward point balance: {rewardBalance}</div> }
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>
                 <input type="text" id="name" name="name" required value={name} onChange={handleNameChange}/><br /><br />
