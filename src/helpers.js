@@ -44,7 +44,6 @@ export async function fetchOrders(user) {
 
 export async function fetchRewardBalance(user) {
     if (user) {
-        console.log(user.id);
         const { data, error } = await supabase
         .from('profiles')
         .select('reward_points')

@@ -7,11 +7,13 @@ import { fetchRewardBalance } from '../../helpers';
 
 function OrderPage({ user }) {
 
-    const [rewardBalance, setRewardBalance] = useState(100);
+    const [rewardBalance, setRewardBalance] = useState(0);
     useEffect( () => {
         const getRewardBalance = async () => {
             const rewardData = await fetchRewardBalance(user);
-            // setRewardBalance(rewardBalance);
+            if (!rewardData) return;
+            const { reward_points: rewardPoints } = rewardData;
+            setRewardBalance(rewardPoints);
         }
         getRewardBalance();
     }, [user])
@@ -60,21 +62,12 @@ function OrderPage({ user }) {
 
     let totalPrice = (toppingPrice + sizePrice) * quantity;
 
-
-
-
-
-
-    const navigate = useNavigate();
         // TODO
-        // handle adding more points when a user submits - FUNCTION SHOULD BE CREATED!
         // calculate new rewards points balance
         // handle applying discount
         // error and success message handling
-
+    const navigate = useNavigate();
     const handleSubmit = async e => {
-
-
         e.preventDefault();
 
         const newOrder = {
@@ -87,14 +80,39 @@ function OrderPage({ user }) {
         }
         
         if (user) {
+            
+            let { data: profileExists, error: profileError } = await supabase
+            .from('profiles')
+            .select('reward_points')
+            .eq('user_id', user.id)
+            .single();
+        
+            if (profileError && profileError.code !== 'PGRST116') {
+                console.error('Error fetching user profile:', error);
+                return;
+            }
+            
+            if (profileExists) {
+                let { error: pointsError } = await supabase
+                .from('profiles')
+                .update({reward_points: totalPrice + rewardBalance})
+                .eq('user_id', user.id);
+            } 
+            
+            if (!profileExists) {
+                const { error } = await supabase.from('profiles').insert([
+                    { user_id: user.id, reward_points: totalPrice }
+                ]);
+            }
+
+
+
             newOrder.order_user = user.email;
             const { error } = await supabase.from('Order').insert([newOrder]);
 
             if (error) {
-                // setError('Failed to submit order. Please try again.');
                 console.error('Error inserting order:', error);
             } else {
-                // setSuccessMessage('Review submitted successfully!');
                 setName('');
                 setAddress('');
                 setSize('');
