@@ -4,16 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import { fetchRewardBalance } from '../../helpers';
+import RewardPointsDialog from '../RewardPointsDialog';
 
 function OrderPage({ user }) {
 
     const [rewardBalance, setRewardBalance] = useState(0);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     useEffect( () => {
         const getRewardBalance = async () => {
             const rewardData = await fetchRewardBalance(user);
             if (!rewardData) return;
             const { reward_points: rewardPoints } = rewardData;
             setRewardBalance(rewardPoints);
+            if(rewardPoints >= 100) setIsDialogOpen(true);
         }
         getRewardBalance();
     }, [user])
@@ -92,7 +95,7 @@ function OrderPage({ user }) {
         .single();
         
         if (profileError && profileError.code !== 'PGRST116') {
-            console.error('Error fetching user profile:', error);
+            console.error('Error fetching user profile:', profileError);
             return;
         }
             
@@ -101,12 +104,23 @@ function OrderPage({ user }) {
             .from('profiles')
             .update({reward_points: totalPrice + rewardBalance})
             .eq('user_id', user.id);
+            if (pointsError) {
+                console.error('Error fetching user profile:', pointsError);
+                return;
+            }
         } 
+
+
             
         if (!profileExists) {
             const { error } = await supabase.from('profiles').insert([
                 { user_id: user.id, reward_points: totalPrice }
             ]);
+
+            if (error) {
+                console.error('Error fetching user profile:', error);
+                return;
+            }
         }
 
         newOrder.order_user = user.email;
@@ -125,6 +139,10 @@ function OrderPage({ user }) {
             navigate('/receipt', { state: newOrder} );
         }
     }
+
+    const handleCloseDialog = () => {
+        setIsDialogOpen(false);
+    };
 
     return (
         <div className="order-page">
@@ -237,10 +255,20 @@ function OrderPage({ user }) {
 
                 <div>Your current total is: ${totalPrice}</div>
 
-                <input type="submit" value="Order Pizza" />
+                <input className="cta" type="submit" value="Order Pizza" />
+                {
+                    user && rewardBalance >= 100 &&
+                    <input className="cta" type="submit" value="Use up 100 points and get your free meal!" />
+                }
+                
             </form>
 
             <Link to="/">Back to Home Page</Link>
+            <RewardPointsDialog
+                isOpen={isDialogOpen}
+                onClose={handleCloseDialog}
+                points={rewardBalance}
+            />
         </div>
     );
 }
