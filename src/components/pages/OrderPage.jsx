@@ -100,18 +100,16 @@ function OrderPage({ user }) {
             return;
         }
             
-        if (profileExists) {
-            if ( submitBtnClicked === "rewardSubmit") {
-                totalPrice = 0;
-                setRewardBalance( prevBalance => {
-                    const newBalance = prevBalance - 100;
-                    updateRewardPoints(user, totalPrice, newBalance);
-                    return newBalance;
-                })
-            } else {
-                updateRewardPoints(user, totalPrice, rewardBalance);
-            }
-        } 
+        if (profileExists && submitBtnClicked === "rewardSubmit") {
+            totalPrice = 0;
+            setRewardBalance( prevBalance => {
+                const newBalance = prevBalance - 100;
+                updateRewardPoints(user, totalPrice, newBalance);
+                return newBalance;
+            })
+        } else {
+            updateRewardPoints(user, totalPrice, rewardBalance);
+        }
 
 
             
