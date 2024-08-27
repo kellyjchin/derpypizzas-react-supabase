@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
-import { fetchRewardBalance } from '../../helpers';
+import { fetchRewardBalance, updateRewardPoints } from '../../helpers';
 import RewardPointsDialog from '../RewardPointsDialog';
 
 function OrderPage({ user }) {
@@ -19,7 +19,7 @@ function OrderPage({ user }) {
             if(rewardPoints >= 100) setIsDialogOpen(true);
         }
         getRewardBalance();
-    }, [user])
+    }, [user, rewardBalance])
 
     const [name, setName] = useState('');
     const handleNameChange = e => {
@@ -66,14 +66,13 @@ function OrderPage({ user }) {
     let totalPrice = (toppingPrice + sizePrice) * quantity;
 
     // TODO
-    // calculate new rewards points balance - after subtracting
-    // handle applying discount
     // error and success message handling
     
     const navigate = useNavigate();
     const handleSubmit = async e => {
         e.preventDefault();
 
+        const submitBtnClicked = e.nativeEvent.submitter.name;
         const newOrder = {
             name: name,
             delivery_address: address,
@@ -82,6 +81,8 @@ function OrderPage({ user }) {
             quantity: quantity,
             total_price: totalPrice
         }
+
+
 
         if (!user) {
             navigate('/receipt', { state: newOrder} );
@@ -100,13 +101,15 @@ function OrderPage({ user }) {
         }
             
         if (profileExists) {
-            let { error: pointsError } = await supabase
-            .from('profiles')
-            .update({reward_points: totalPrice + rewardBalance})
-            .eq('user_id', user.id);
-            if (pointsError) {
-                console.error('Error fetching user profile:', pointsError);
-                return;
+            if ( submitBtnClicked === "rewardSubmit") {
+                totalPrice = 0;
+                setRewardBalance( prevBalance => {
+                    const newBalance = prevBalance - 100;
+                    updateRewardPoints(user, totalPrice, newBalance);
+                    return newBalance;
+                })
+            } else {
+                updateRewardPoints(user, totalPrice, rewardBalance);
             }
         } 
 
@@ -255,10 +258,10 @@ function OrderPage({ user }) {
 
                 <div>Your current total is: ${totalPrice}</div>
 
-                <input className="cta" type="submit" value="Order Pizza" />
+                <input className="cta" type="submit" name="regularSubmit" value="Order Pizza" />
                 {
                     user && rewardBalance >= 100 &&
-                    <input className="cta" type="submit" value="Use up 100 points and get your free meal!" />
+                    <input className="cta" type="submit" name="rewardSubmit" value="Use up 100 points and get your free meal!" />
                 }
                 
             </form>

@@ -56,3 +56,14 @@ export async function fetchRewardBalance(user) {
         return data;
     }
 }
+
+export async function updateRewardPoints(user, totalPrice, newBalance) {
+    let { error: pointsError } = await supabase
+    .from('profiles')
+    .update({reward_points: totalPrice + newBalance})
+    .eq('user_id', user.id);
+    if (pointsError) {
+        console.error('Error fetching user profile:', pointsError);
+        return;
+    }
+}
