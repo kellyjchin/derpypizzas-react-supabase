@@ -6,6 +6,6 @@
 - [ ] Like/Dislike Reviews
 - [ ] Add comments on reviews
 - [ ] More robust orders. EG: Make it so that in an order, a person can order 1 large pizza,  2 medium, 3 small etc...
-- [ ] Rewards System for signed up users who order (Every x dollars they spend, it racks up to discounts on their next etc...)
+- [x] Rewards System for signed up users who order (Every x dollars they spend, it racks up to discounts on their next etc...)
 - [ ] Location suggestion autocomplete when filling in order address
 - [ ] Vertical Carousel for Recent Reviews on homepage

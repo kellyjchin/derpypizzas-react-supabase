@@ -3,7 +3,7 @@ import { supabase } from '../supabaseClient';
 import { useNavigate } from 'react-router-dom';
 
 // TODO
-// - When a user logs in, redirect to profile page. Profile will also have the ability to leave a review there.
+// - When a user logs in, redirect to profile page.
 
 function AuthComponent() {
   const [email, setEmail] = useState('');
