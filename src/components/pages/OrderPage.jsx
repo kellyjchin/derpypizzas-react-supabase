@@ -107,10 +107,9 @@ function OrderPage({ user }) {
                 updateRewardPoints(user, totalPrice, newBalance);
                 return newBalance;
             })
-        } else {
+        } else if (profileExists && submitBtnClicked === "regularSubmit") {
             updateRewardPoints(user, totalPrice, rewardBalance);
         }
-
 
             
         if (!profileExists) {
