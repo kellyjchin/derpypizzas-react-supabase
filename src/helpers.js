@@ -4,26 +4,46 @@ export async function fetchReviews(user) {
     if (user) {
         const { data, error } = await supabase
         .from('Review')
-        .select('*')
+        .select(`
+            id,
+            review_body,
+            rating,
+            created_at,
+            reviewer,
+            review_likes_dislikes (
+                user_id,
+                like_status
+            )
+        `)
         .eq('reviewer', user)
         .order('created_at', {ascending: false})
         if (error) {
             console.error('Error fetching data', error);
         }
-    
+        console.log(data);
         return data;
     }
 
     else {
         const { data, error } = await supabase
         .from('Review')
-        .select('*')
+        .select(`
+            id,
+            review_body,
+            rating,
+            created_at,
+            reviewer,
+            review_likes_dislikes (
+                user_id,
+                like_status
+            )
+        `)
         .limit(3)
         .order('created_at', {ascending: false})
         if (error) {
             console.error('Error fetching data', error);
         }
-    
+        console.log(data);
         return data;
     }
 }

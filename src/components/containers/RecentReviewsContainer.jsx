@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Review from "../Review";
-import { supabase } from "../../supabaseClient";
+// import { supabase } from "../../supabaseClient";
 import { fetchReviews } from "../../helpers";
 import { useLocation } from "react-router-dom";
 
@@ -26,7 +26,7 @@ function RecentReviewsContainer({ user }) {
             }
         }
         getReviews();
-    }, []);
+    }, [currentUrl, user]);
 
     return (
         <div className="reviews-container">
@@ -40,6 +40,9 @@ function RecentReviewsContainer({ user }) {
                         rating={review.rating}
                         date={'derp'}
                         currentUrl={currentUrl}
+                        likesDislikes={review.review_likes_dislikes}
+                        reviewId={review.id}
+                        user={user}
                     /> 
                 ))
 

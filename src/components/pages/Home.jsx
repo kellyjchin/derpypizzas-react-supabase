@@ -11,7 +11,7 @@ function Home({ user }) {
             { user && <p className='welcome-msg'>Welcome {user.email}</p>}
             <div className='row-container'>
                 <OrderTeaser user={user} />
-                <RecentReviewsContainer/>
+                <RecentReviewsContainer user={user}/>
             </div>
 
         </div>
