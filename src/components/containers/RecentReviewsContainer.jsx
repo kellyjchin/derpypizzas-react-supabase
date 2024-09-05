@@ -40,9 +40,10 @@ function RecentReviewsContainer({ user }) {
                         rating={review.rating}
                         date={'derp'}
                         currentUrl={currentUrl}
-                        likesDislikes={review.review_likes_dislikes}
                         reviewId={review.id}
                         user={user}
+                        inLikeCount={review.likeCount}
+                        inDislikeCount={review.dislikeCount}
                     /> 
                 ))
 

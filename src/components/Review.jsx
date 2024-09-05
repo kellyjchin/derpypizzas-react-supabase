@@ -1,50 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
 import '../styles/Review.css'
 
-function Review( {username, body, rating, currentUrl, date, likesDislikes, reviewId, user } ) {
+function Review( {username, body, rating, currentUrl, date, reviewId, user, inLikeCount, inDislikeCount } ) {
 
-    const initialLikeStatus = likesDislikes.length > 0 ? likesDislikes[0].like_status : null;
+    const [likeCount, setLikeCount] = useState(inLikeCount);
+    const [dislikeCount, setDislikeCount] = useState(inDislikeCount);
+    const [userLikeStatus, setUserLikeStatus] = useState(null); // 1 = like, -1 = dislike, null = no action
 
-    const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
-    const [likes, setLikes] = useState(likesDislikes.filter(like => like.like_status === 1).length);
-    const [dislikes, setDislikes] = useState(likesDislikes.filter(like => like.like_status === -1).length);
+    useEffect(() => {
+        // Check if the current user has already liked or disliked this review
+        const fetchUserLikeStatus = async () => {
+          if (user) {
+            const { data, error } = await supabase
+              .from('review_likes_dislikes')
+              .select('like_status')
+              .eq('user_id', user.id)
+              .eq('review_id', reviewId)
+              .single();
+    
+            if (!error && data) {
+              setUserLikeStatus(data.like_status); // Set the user's current like/dislike status
+            }
+          }
+        };
+    
+        fetchUserLikeStatus();
+    }, [reviewId, user]);
 
     const handleLike = async () => {
-        if (likeStatus === 1) return;
-    
-        // Update the like/dislike status in the database
-        const { error } = await supabase
-          .from('review_likes_dislikes')
-          .upsert({
-            review_id: reviewId,
+        if (userLikeStatus === 1) return;
+        let { error } = await supabase
+        .from('review_likes_dislikes')
+        .upsert({
             user_id: user.id,
+            review_id: reviewId,
             like_status: 1
-          }, { onConflict: ['review_id', 'user_id'] });
-    
+        }, { onConflict: ['user_id', 'review_id'] });
+
         if (!error) {
-          if (likeStatus === -1) setDislikes(dislikes - 1);
-          setLikes(likes + 1);
-          setLikeStatus(1);
+            setLikeCount(prev => (userLikeStatus === -1 ? prev + 1 : prev + 1)); // Increment the like count
+            if (userLikeStatus === -1) setDislikeCount(prev => prev - 1); // If switching from dislike, decrement dislike count
+            setUserLikeStatus(1); // Update local like status
         }
     };
 
     const handleDislike = async () => {
-        if (likeStatus === -1) return;
+        if (userLikeStatus === -1) return;
     
-        // Update the like/dislike status in the database
-        const { error } = await supabase
-          .from('review_likes_dislikes')
-          .upsert({
-            review_id: reviewId,
-            user_id: user.id,
-            like_status: -1
-          }, { onConflict: ['review_id', 'user_id'] });
-    
+        let { error } = await supabase
+        .from('review_likes_dislikes')
+        .upsert({
+          user_id: user.id,
+          review_id: reviewId,
+          like_status: -1
+        }, { onConflict: ['user_id', 'review_id'] });
+
         if (!error) {
-          if (likeStatus === 1) setLikes(likes - 1);
-          setDislikes(dislikes + 1);
-          setLikeStatus(-1);
+            setDislikeCount(prev => (userLikeStatus === 1 ? prev + 1 : prev + 1)); // Increment the dislike count
+            if (userLikeStatus === 1) setLikeCount(prev => prev - 1); // If switching from like, decrement like count
+            setUserLikeStatus(-1); // Update local like status
         }
     };
 
@@ -70,19 +85,19 @@ function Review( {username, body, rating, currentUrl, date, likesDislikes, revie
 
             <div className="like-dislike-container">
                 <button
-                    className={likeStatus === 1 ? 'liked' : ''}
+                    className={userLikeStatus === 1 ? 'liked' : ''}
                     onClick={handleLike}
-                    disabled={!user}
+                    disabled={!user || userLikeStatus === 1}
                 >
-                    Like ({likes})
+                    {userLikeStatus === 1 ? 'Liked' : 'Like'} ({likeCount})
                 </button>
 
                 <button
-                    className={likeStatus === -1 ? 'disliked' : ''}
+                    className={userLikeStatus === -1 ? 'disliked' : ''}
                     onClick={handleDislike}
-                    disabled={!user}
+                    disabled={!user || userLikeStatus === -1}
                 >
-                    Dislike ({dislikes})
+                    {userLikeStatus === -1 ? 'Disliked' : 'Dislike'} ({dislikeCount})
                 </button>
             </div>
         </div>

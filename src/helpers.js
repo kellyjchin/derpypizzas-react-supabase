@@ -20,8 +20,18 @@ export async function fetchReviews(user) {
         if (error) {
             console.error('Error fetching data', error);
         }
-        console.log(data);
-        return data;
+
+        const reviewsWithCounts = data.map(review => {
+            const likeCount = review.review_likes_dislikes.filter(r => r.like_status === 1).length;
+            const dislikeCount = review.review_likes_dislikes.filter(r => r.like_status === -1).length;
+            console.log(likeCount);
+            console.log(dislikeCount);
+            return { ...review, likeCount, dislikeCount };
+        });
+
+        console.log(reviewsWithCounts);
+
+        return reviewsWithCounts;
     }
 
     else {
@@ -43,8 +53,15 @@ export async function fetchReviews(user) {
         if (error) {
             console.error('Error fetching data', error);
         }
-        console.log(data);
-        return data;
+
+        const reviewsWithCounts = data.map(review => {
+            const likeCount = review.review_likes_dislikes.filter(r => r.like_status === 1).length;
+            const dislikeCount = review.review_likes_dislikes.filter(r => r.like_status === -1).length;
+            return { ...review, likeCount, dislikeCount };
+        });
+
+        console.log(reviewsWithCounts);
+        return reviewsWithCounts;
     }
 }
 
