@@ -85,19 +85,19 @@ function Review( {username, body, rating, currentUrl, date, reviewId, user, inLi
 
             <div className="like-dislike-container">
                 <button
-                    className={userLikeStatus === 1 ? 'liked' : ''}
+                    className={`like-button ${user && userLikeStatus === 1 ? 'liked' : ''}`}
                     onClick={handleLike}
                     disabled={!user || userLikeStatus === 1}
                 >
-                    {userLikeStatus === 1 ? 'Liked' : 'Like'} ({likeCount})
+                    {user && userLikeStatus === 1 ? 'Liked' : 'Like'} ({likeCount})
                 </button>
 
                 <button
-                    className={userLikeStatus === -1 ? 'disliked' : ''}
+                    className={`dislike-button ${user && userLikeStatus === -1 ? 'disliked' : ''}`}
                     onClick={handleDislike}
                     disabled={!user || userLikeStatus === -1}
                 >
-                    {userLikeStatus === -1 ? 'Disliked' : 'Dislike'} ({dislikeCount})
+                    {user && userLikeStatus === -1 ? 'Disliked' : 'Dislike'} ({dislikeCount})
                 </button>
             </div>
         </div>

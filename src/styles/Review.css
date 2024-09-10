@@ -8,3 +8,37 @@
 .review * {
     padding-top: 10px;
 }
+
+.like-dislike-container {
+    display: flex;
+    column-gap: 8px;
+}
+
+button.like-button, button.dislike-button {
+    background-color: whitesmoke;
+    color: #000; 
+    border: ridge thin black;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* Change color on hover for active users */
+button.like-button:hover, button.dislike-button:hover {
+    color: #000; /* Darker color on hover */
+    filter: brightness(85%);
+}
+
+button:disabled {
+    background-color: whitesmoke; 
+    color: #000;                
+    cursor: default;               
+    opacity: 1;                    
+}
+
+button.liked, button.disliked {
+    color: #000;
+    font-weight: 700;
+    background-color: #388e3c;
+}
