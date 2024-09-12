@@ -154,94 +154,97 @@ function OrderPage({ user }) {
 
                 <label htmlFor="address">Address to be delivered to:</label>
                 <input type="text" id="address" name="address" required value={address} onChange={handleAddressChange}/><br /><br />
-                
-                <label>Pizza Size:</label><br />
-                <input 
-                    type="radio" 
-                    id="small" 
-                    name="size" 
-                    value="small" 
-                    data-price="5"
+
+                <fieldset>
+                    <legend>Pizza Size:</legend><br />
+                    <input 
+                        type="radio" 
+                        id="small" 
+                        name="size" 
+                        value="small" 
+                        data-price="5"
+                        required
+                        onChange={handleSizeChange}
+                    />
+                    <label htmlFor="small">Small - $5.00</label><br />
+
+                    <input
+                    type="radio"
+                    id="medium"
+                    name="size"
+                    value="medium"
+                    data-price="8"
                     required
                     onChange={handleSizeChange}
-                />
-                <label htmlFor="small">Small - $5.00</label><br />
-
-                <input
-                type="radio"
-                id="medium"
-                name="size"
-                value="medium"
-                data-price="8"
-                required
-                onChange={handleSizeChange}
-                />
-                <label htmlFor="medium">Medium - $ 8.00</label><br />
+                    />
+                    <label htmlFor="medium">Medium - $ 8.00</label><br />
 
 
 
-                <input
-                type="radio"
-                id="large"
-                name="size"
-                value="large"
-                data-price="10"
-                required
-                onChange={handleSizeChange}
-                />
-                <label htmlFor="large">Large - $10</label><br /><br />
+                    <input
+                    type="radio"
+                    id="large"
+                    name="size"
+                    value="large"
+                    data-price="10"
+                    required
+                    onChange={handleSizeChange}
+                    />
+                    <label htmlFor="large">Large - $10</label><br /><br />
+                </fieldset>
 
-                <label>Pizza Toppings:</label><br />
-                <input 
-                    type="checkbox" 
-                    id="pepperoni" 
-                    name="toppings" 
-                    value="pepperoni" 
-                    data-price="4"
-                    onChange={handleToppingChange}
-                />
-                <label htmlFor="pepperoni">Pepperoni - $4</label><br />
-                
-                <input 
-                    type="checkbox" 
-                    id="mushrooms" 
-                    name="toppings" 
-                    value="mushrooms" 
-                    data-price="2"
-                    onChange={handleToppingChange}
-                />
-                <label htmlFor="mushrooms">Mushrooms - $2</label><br />
-                
-                <input 
-                    type="checkbox" 
-                    id="onions" 
-                    name="toppings" 
-                    value="onions" 
-                    data-price="2"
-                    onChange={handleToppingChange}
-                />
-                <label htmlFor="onions">Onions - $2</label><br />
-                
-                <input 
-                    type="checkbox" 
-                    id="sausage" 
-                    name="toppings" 
-                    value="sausage" 
-                    data-price="4"
-                    onChange={handleToppingChange}
-                />
-                <label htmlFor="sausage">Sausage - $4</label><br />
-                
-                <input 
-                    type="checkbox" 
-                    id="bacon" 
-                    name="toppings" 
-                    value="bacon" 
-                    data-price="4"
-                    onChange={handleToppingChange}
-                />
-                <label htmlFor="bacon">Bacon - $4</label><br /><br />
-
+                <fieldset>
+                    <legend>Pizza Toppings:</legend><br />
+                    <input 
+                        type="checkbox" 
+                        id="pepperoni" 
+                        name="toppings" 
+                        value="pepperoni" 
+                        data-price="4"
+                        onChange={handleToppingChange}
+                    />
+                    <label htmlFor="pepperoni">Pepperoni - $4</label><br />
+                    
+                    <input 
+                        type="checkbox" 
+                        id="mushrooms" 
+                        name="toppings" 
+                        value="mushrooms" 
+                        data-price="2"
+                        onChange={handleToppingChange}
+                    />
+                    <label htmlFor="mushrooms">Mushrooms - $2</label><br />
+                    
+                    <input 
+                        type="checkbox" 
+                        id="onions" 
+                        name="toppings" 
+                        value="onions" 
+                        data-price="2"
+                        onChange={handleToppingChange}
+                    />
+                    <label htmlFor="onions">Onions - $2</label><br />
+                    
+                    <input 
+                        type="checkbox" 
+                        id="sausage" 
+                        name="toppings" 
+                        value="sausage" 
+                        data-price="4"
+                        onChange={handleToppingChange}
+                    />
+                    <label htmlFor="sausage">Sausage - $4</label><br />
+                    
+                    <input 
+                        type="checkbox" 
+                        id="bacon" 
+                        name="toppings" 
+                        value="bacon" 
+                        data-price="4"
+                        onChange={handleToppingChange}
+                    />
+                    <label htmlFor="bacon">Bacon - $4</label><br /><br />
+                </fieldset>
                 <label htmlFor="quantity">Quantity:</label>
                 <input 
                     type="number" 
