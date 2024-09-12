@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import { fetchRewardBalance, updateRewardPoints } from '../../helpers';
 import RewardPointsDialog from '../RewardPointsDialog';
+import '../../styles/OrderPage.css'
 
 function OrderPage({ user }) {
 
@@ -151,9 +152,9 @@ function OrderPage({ user }) {
                 <label htmlFor="name">Name:</label>
                 <input type="text" id="name" name="name" required value={name} onChange={handleNameChange}/><br /><br />
 
-                <label htmlFor="address">Address to be delivered:</label>
+                <label htmlFor="address">Address to be delivered to:</label>
                 <input type="text" id="address" name="address" required value={address} onChange={handleAddressChange}/><br /><br />
-
+                
                 <label>Pizza Size:</label><br />
                 <input 
                     type="radio" 

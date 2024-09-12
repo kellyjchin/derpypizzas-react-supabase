@@ -1,0 +1,12 @@
+.order-page form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+label[for="name"], label[for="address"] {
+    display: block;
+}
+
+#address, #name {
+    width: 100%;
+}
