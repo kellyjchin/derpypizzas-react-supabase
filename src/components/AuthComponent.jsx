@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../supabaseClient';
 import { useNavigate } from 'react-router-dom';
-
-// TODO
-// - When a user logs in, redirect to profile page.
+import '../styles/Auth.css'
 
 function AuthComponent() {
   const [email, setEmail] = useState('');
@@ -25,7 +23,7 @@ function AuthComponent() {
     .from('profiles')
     .insert([
       {
-        user_id: user.user.id,  
+        user_id: user.id,  
         reward_points: 0,  
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
@@ -55,7 +53,7 @@ function AuthComponent() {
           <p>Welcome, {user.email}</p>
         </div>
       ) : (
-        <div>
+        <div className='auth-form'>
           <input
             type="email"
             value={email}
