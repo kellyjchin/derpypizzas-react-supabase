@@ -3,7 +3,7 @@
     - [x] Bring over details from order to receipt page
 - [ ] Receipt Dynamic Routes (/receipts/{order-id})
     - THIS WOULD REQUIRE SAVING ALL ORDERS, EVEN IF USER IS ANONYMOUS!
-- [ ] Like/Dislike Reviews
+- [x] Like/Dislike Reviews
 - [ ] Add comments on reviews
 - [ ] More robust orders. EG: Make it so that in an order, a person can order 1 large pizza,  2 medium, 3 small etc...
 - [x] Rewards System for signed up users who order (Every x dollars they spend, it racks up to discounts on their next etc...)

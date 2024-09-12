@@ -65,23 +65,22 @@ function Review( {username, body, rating, currentUrl, date, reviewId, user, inLi
 
     return (
         <div className="review">
+            <div className="rating">
+                <strong>Rating: </strong>{rating}
+            </div>
+
+            <div className="review-body">
+                <em>{body}</em>
+            </div>
 
             {
                 currentUrl === "/" ? 
                 <div className="user-name">
-                    {username}
+                  <strong>Written by: </strong> {username}
                 </div>
                 :
                 ''
             }
-
-            <div className="review-body">
-                {body}
-            </div>
-
-            <div className="rating">
-                {rating}
-            </div>
 
             <div className="like-dislike-container">
                 <button
