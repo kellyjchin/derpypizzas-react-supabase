@@ -53,6 +53,8 @@ function AuthComponent() {
           <p>Welcome, {user.email}</p>
         </div>
       ) : (
+        <>
+        <h2 className='no-real-email'>No REAL email address needed. You could literally sign up with a dumby email such as test2@test.ca (assuming it hasn't been taken!)</h2>
         <div className='auth-form'>
           <input
             type="email"
@@ -70,6 +72,7 @@ function AuthComponent() {
           <button className="cta" onClick={handleLogin}>Login</button>
           {error && <p style={{ color: 'red' }}>{error}</p>}
         </div>
+        </>
       )}
     </div>
   );

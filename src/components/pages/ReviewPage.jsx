@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { supabase } from '../../supabaseClient';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import '../../styles/ReviewPage.css'
 
 function ReviewPage({ user }) {
 
@@ -63,7 +64,7 @@ function ReviewPage({ user }) {
                 </div>
 
                 <div className="form-elem-wrapper">
-                    <label htmlFor="rating">Give us a rating!</label><br />
+                    <label htmlFor="rating">Give us a rating:</label><br />
                     <select 
                         id="rating" 
                         name="rating" 
@@ -76,10 +77,9 @@ function ReviewPage({ user }) {
                         <option value={"Best pizza in town!"}>Best pizza in town!</option>
                     </select>
                 </div>
-                <input type="submit" value="Add Review!" ></input>
+                <input type="submit" value="Add Review!" className="cta"></input>
             </form>
 
-            <Link to="/">Back to Home Page</Link>
         </div>
     );
 }

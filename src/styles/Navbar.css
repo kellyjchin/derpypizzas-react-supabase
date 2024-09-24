@@ -16,6 +16,9 @@ nav a, nav button {
     font-size: 16px;
     font-weight: 600;
     padding: unset;
+}
+
+a, button, input[type="submit"] {
     cursor: pointer;
 }
 

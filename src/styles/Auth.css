@@ -1,11 +1,17 @@
 .auth-form {
     display: flex;
     flex-wrap: wrap;
-    margin:20vh auto;
+    margin: 10vh auto;
     justify-content: center;
     max-width: 300px;
     row-gap: 10px;
     column-gap: 10px;
+}
+
+.no-real-email {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .auth-form input {

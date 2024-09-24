@@ -9,4 +9,29 @@ label[for="name"], label[for="address"] {
 
 #address, #name {
     width: 100%;
+    height: 30px;
+}
+
+#quantity {
+    height: 30px;
+    margin-left: 8px;
+}
+
+fieldset {
+    margin-bottom: 16px;
+}
+
+.total-price {
+    margin: 16px 0;
+}
+
+.order-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 8px;
+}
+
+.reward-bal {
+    max-width: 600px;
+    margin: 16px auto;
 }

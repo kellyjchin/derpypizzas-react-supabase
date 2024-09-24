@@ -147,7 +147,7 @@ function OrderPage({ user }) {
 
     return (
         <div className="order-page">
-            { user && <div>Reward point balance: {rewardBalance}</div> }
+            { user && <p className='reward-bal'><strong>Reward point balance: {rewardBalance}</strong></p> }
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>
                 <input type="text" id="name" name="name" required value={name} onChange={handleNameChange}/><br /><br />
@@ -255,19 +255,20 @@ function OrderPage({ user }) {
                     required 
                     onChange={handleQuantityChange}
                 />
-                <br /><br />
 
-                <div>Your current total is: ${totalPrice}</div>
+                <div className='total-price'>Your current total is: ${totalPrice}</div>
 
-                <input className="cta" type="submit" name="regularSubmit" value="Order Pizza" />
-                {
-                    user && rewardBalance >= 100 &&
-                    <input className="cta" type="submit" name="rewardSubmit" value="Use up 100 points and get your free meal!" />
-                }
+                <div className='order-ctas'>
+                    <input className="cta" type="submit" name="regularSubmit" value="Order Pizza" />
+                    {
+                        user && rewardBalance >= 100 &&
+                        <input className="cta" type="submit" name="rewardSubmit" value="Use up 100 points and get your free meal!" />
+                    }
+                </div>
+
                 
             </form>
 
-            <Link to="/">Back to Home Page</Link>
             <RewardPointsDialog
                 isOpen={isDialogOpen}
                 onClose={handleCloseDialog}
