@@ -30,7 +30,7 @@ function RecentReviewsContainer({ user }) {
 
     return (
         <div className="reviews-container">
-            <h2>Recent Reviews</h2>
+            { currentUrl === "/" && <h2>Recent Reviews</h2>}
             {reviews ?
                 reviews.map( (review, index) => (
                     <Review
