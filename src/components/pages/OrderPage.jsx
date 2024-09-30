@@ -148,6 +148,7 @@ function OrderPage({ user }) {
     return (
         <div className="order-page">
             { user && <p className='reward-bal'><strong>Reward point balance: {rewardBalance}</strong></p> }
+            { !user && <p className='reward-bal'><strong>Sign up to get access to our reward points system!</strong></p> }
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>
                 <input type="text" id="name" name="name" required value={name} onChange={handleNameChange}/><br /><br />

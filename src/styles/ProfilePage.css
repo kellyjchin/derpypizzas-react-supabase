@@ -12,3 +12,7 @@
 .profile-page li a{
     text-decoration: none;
 }
+
+.orders-container .receipt {
+    margin: 10px 0;
+}
