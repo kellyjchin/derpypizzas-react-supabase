@@ -1,18 +1,21 @@
-.profile-page {
-
-}
 
 .profile-page ul {
     list-style: none;
     display: flex;
     padding-left: 0;
     column-gap: 8px;
+    margin-bottom: 40px;
 }
 
-.profile-page li a{
+.profile-page li a {
     text-decoration: none;
 }
 
-.orders-container .receipt {
+.orders-container .receipt,
+.reviews-container .review {
     margin: 10px 0;
+}
+
+section {
+    margin: 20px 0;
 }
