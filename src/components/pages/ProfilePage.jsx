@@ -20,7 +20,7 @@ function ProfilePage({ user }) {
                     <Disclosure>
                         {({ open }) => (
                             <>
-                                <DisclosureButton style={{ borderRadius: "10px", fontFamily: "inherit", width: '100%', padding: '10px 15px', backgroundColor: '#f5f5f5', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <DisclosureButton style={{ columnGap: "10px", borderRadius: "10px", fontFamily: "inherit", width: '100%', padding: '10px 15px', backgroundColor: '#8D6E63', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <h3>Here are all of the orders you've ever made</h3>
                                     <span>{open ? '▲' : '▼'}</span>
                                 </DisclosureButton>
@@ -37,7 +37,7 @@ function ProfilePage({ user }) {
                     <Disclosure>
                         {({ open }) => (
                             <>
-                                <DisclosureButton style={{ borderRadius: "10px", fontFamily: "inherit", width: '100%', padding: '10px 15px', backgroundColor: '#f5f5f5', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <DisclosureButton style={{ columnGap: "10px", borderRadius: "10px", fontFamily: "inherit", width: '100%', padding: '10px 15px', backgroundColor: '#8D6E63', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <h3>Here are all of the reviews you've ever made</h3>
                                     <span>{open ? '▲' : '▼'}</span>
                                 </DisclosureButton>

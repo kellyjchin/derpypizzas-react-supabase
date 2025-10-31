@@ -11,6 +11,11 @@
     text-decoration: none;
 }
 
+.profile-page h3 {
+    margin: 0;
+    text-align: left;
+}
+
 .orders-container .receipt,
 .reviews-container .review {
     margin: 10px 0;
