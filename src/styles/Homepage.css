@@ -12,10 +12,16 @@
     column-gap: 20px;
     row-gap: 40px;
 
-    @media screen and (min-width: 1024px) {
+
+}
+
+
+@media screen and (min-width: 1024px) {
+    .row-container {
         flex-direction: row;
     }
 }
+
 
 .order-teaser {
     justify-content: center;
