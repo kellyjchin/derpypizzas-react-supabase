@@ -1,15 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import { Disclosure, DisclosurePanel, DisclosureButton } from "@headlessui/react";
 import RecentReviewsContainer from "../containers/RecentReviewsContainer";
 import RecentOrdersContainer from "../containers/RecentOrdersContainer";
 import '../../styles/ProfilePage.css'
+import { fetchOrders, fetchRewardBalance } from "../../helpers";
 
 function ProfilePage({ user }) {
+        const [orders, setOrders] = useState([]);
+        useEffect( () => {
+            async function getOrders() {
+                let ordersData = await fetchOrders(user.email);
+                if(ordersData) {
+                    setOrders(ordersData);
+                }
+            }
+            getOrders();
+        }, []);
+
+        const [rewardBalance, setRewardBalance] = useState(0);
+        useEffect( () => {
+            const getRewardBalance = async () => {
+                const rewardData = await fetchRewardBalance(user);
+                if (!rewardData) return;
+                const { reward_points: rewardPoints } = rewardData;
+                setRewardBalance(rewardPoints);
+            }
+            getRewardBalance();
+        }, [user, rewardBalance])
 
     return (
         <div className="profile-page">
             <h1>Welcome {user.email}</h1>
+            <span>Point Balance: {rewardBalance}</span>
             <ul className="links">
                 <li><Link to="/review" className="cta">Leave a review!</Link></li>
                 <li><Link to="/order" className="cta">Make an order!</Link></li>
@@ -17,36 +40,41 @@ function ProfilePage({ user }) {
 
             <div className="profile-page-inner-wrapper">
                 <section>
-                    <Disclosure>
-                        {({ open }) => (
-                            <>
-                                <DisclosureButton style={{ columnGap: "10px", borderRadius: "10px", fontFamily: "inherit", width: '100%', padding: '10px 15px', backgroundColor: '#8D6E63', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <h3>Here are all of the orders you've ever made</h3>
-                                    <span>{open ? '▲' : '▼'}</span>
-                                </DisclosureButton>
-                                <DisclosurePanel>
-                                    <RecentOrdersContainer user={user}/>
-                                </DisclosurePanel>
-                            </>
-                        )}
-                    </Disclosure>
-                </section>
+                    <h3>Your recent orders:</h3>
+                    <table>
+                        <thead>
+                            <th>Date</th>
+                            <th>For</th>
+                            <th>Delivery Address</th>
+                            <th>Size</th>
+                            <th>Toppings</th>
+                            <th>Qty.</th>
+                            <th>Total Price</th>
+                        </thead>
+                        <tbody>
+                            {orders ?
 
-                <section>
+                                orders.map( (order, index) => {
+                                    const dateCreated = new Date(order.created_at);
+                                    
+                                    return(
+                                        <tr>
+                                            <td>{dateCreated.toLocaleDateString()}</td>
+                                            <td>{order.name}</td>
+                                            <td>{order.delivery_address}</td>
+                                            <td>{order.pizza_size}</td>
+                                            <td>{order.toppings ? order.toppings.join(', ') : "no toppings"}</td>
+                                            <td>{order.quantity}</td>
+                                            <td>{order.total_price.toFixed(2)}</td>
+                                        </tr>
+                                    )
+                                })
 
-                    <Disclosure>
-                        {({ open }) => (
-                            <>
-                                <DisclosureButton style={{ columnGap: "10px", borderRadius: "10px", fontFamily: "inherit", width: '100%', padding: '10px 15px', backgroundColor: '#8D6E63', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <h3>Here are all of the reviews you've ever made</h3>
-                                    <span>{open ? '▲' : '▼'}</span>
-                                </DisclosureButton>
-                                <DisclosurePanel>
-                                    <RecentReviewsContainer user={user}/>
-                                </DisclosurePanel>
-                            </>
-                        )}
-                    </Disclosure>
+                                :
+                                <tr><td>Loading Orders...</td></tr>
+                            }
+                        </tbody>
+                    </table>
                 </section>
             </div>
 

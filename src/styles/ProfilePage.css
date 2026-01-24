@@ -24,3 +24,24 @@
 section {
     margin: 20px 0;
 }
+
+.profile-page-inner-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    text-align: left;
+    padding: 4px 8px;
+    background-color: whitesmoke;
+
+    border: ridge 4px #388e3c;
+}
+
+h1 {
+    margin-bottom: 0;
+}
