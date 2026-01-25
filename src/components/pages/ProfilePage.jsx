@@ -7,27 +7,27 @@ import '../../styles/ProfilePage.css'
 import { fetchOrders, fetchRewardBalance } from "../../helpers";
 
 function ProfilePage({ user }) {
-        const [orders, setOrders] = useState([]);
-        useEffect( () => {
-            async function getOrders() {
-                let ordersData = await fetchOrders(user.email);
-                if(ordersData) {
-                    setOrders(ordersData);
-                }
+    const [orders, setOrders] = useState([]);
+    useEffect( () => {
+        async function getOrders() {
+            let ordersData = await fetchOrders(user.email);
+            if(ordersData) {
+                setOrders(ordersData);
             }
-            getOrders();
-        }, []);
+        }
+        getOrders();
+    }, []);
 
-        const [rewardBalance, setRewardBalance] = useState(0);
-        useEffect( () => {
-            const getRewardBalance = async () => {
-                const rewardData = await fetchRewardBalance(user);
-                if (!rewardData) return;
-                const { reward_points: rewardPoints } = rewardData;
-                setRewardBalance(rewardPoints);
-            }
-            getRewardBalance();
-        }, [user, rewardBalance])
+    const [rewardBalance, setRewardBalance] = useState(0);
+    useEffect( () => {
+        const getRewardBalance = async () => {
+            const rewardData = await fetchRewardBalance(user);
+            if (!rewardData) return;
+            const { reward_points: rewardPoints } = rewardData;
+            setRewardBalance(rewardPoints);
+        }
+        getRewardBalance();
+    }, [user, rewardBalance])
 
     return (
         <div className="profile-page">
