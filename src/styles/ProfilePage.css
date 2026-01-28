@@ -45,3 +45,7 @@ table td {
 h1 {
     margin-bottom: 0;
 }
+
+.btn-container {
+    margin-top: 8px;
+}

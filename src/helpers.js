@@ -27,8 +27,6 @@ export async function fetchReviews(user) {
             return { ...review, likeCount, dislikeCount };
         });
 
-        console.log(reviewsWithCounts);
-
         return reviewsWithCounts;
     }
 
@@ -58,12 +56,11 @@ export async function fetchReviews(user) {
             return { ...review, likeCount, dislikeCount };
         });
 
-        console.log(reviewsWithCounts);
         return reviewsWithCounts;
     }
 }
 
-export async function fetchOrders(user) {
+export async function fetchAllOrders(user) {
     if (user) {
         const { data, error } = await supabase
         .from('Order')
@@ -75,6 +72,31 @@ export async function fetchOrders(user) {
         }
         return data;
     }
+}
+
+export async function fetchOrdersPaginated({ userEmail, limit, offset }) {
+
+    if (!userEmail) return null;
+
+    const from = offset;
+    const to = offset + limit - 1;
+
+    const { data, error, count } = await supabase
+        .from('Order')
+        .select('*', { count: 'exact' })
+        .eq('order_user', userEmail)
+        .order('created_at', { ascending: false })
+        .range(from, to);
+
+    if (error) {
+        console.error('Error fetching orders:', error);
+        return null;
+    }
+
+    return {
+        orders: data,
+        totalCount: count
+    };
 }
 
 export async function fetchRewardBalance(user) {
