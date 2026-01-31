@@ -3,7 +3,7 @@ import { supabase } from "../supabaseClient";
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 
-function LogOut() {
+function LogOut({ onLogout }) {
 
     const { setUser } = useAuth();
     const navigate = useNavigate();
@@ -13,6 +13,7 @@ function LogOut() {
         if (error) console.error('Error logging out:', error.message);
         else {
             setUser(null);
+            onLogout?.();
             navigate('/');
         }
     }

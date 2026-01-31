@@ -6,6 +6,11 @@ main {
   background-color: #FBC02D;
 }
 
+.App {
+  position: relative;
+  overflow-x: clip;
+}
+
 footer {
   border-top: thin black ridge;
   text-align: center;
@@ -17,4 +22,8 @@ footer {
   border: black ridge thick;
   padding: 20px;
   background-color: whitesmoke;
+}
+
+.d-none {
+  display: none;
 }
