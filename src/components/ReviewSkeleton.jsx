@@ -1,7 +1,7 @@
 function ReviewSkeleton() {
 
     return (
-        <div className="review-skeleton">
+        <div className="review-skeleton shimmer">
 
         </div>
     );

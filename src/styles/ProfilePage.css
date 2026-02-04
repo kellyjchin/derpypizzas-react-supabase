@@ -22,17 +22,29 @@
 }
 
 .review-skeleton {
-    height: 160px;          /* approximate Review card height */
+    height: 160px;         
     margin-bottom: 1rem;
     border-radius: 8px;
-    background-color: #e5e7eb; /* light gray */
+    background-color: #e5e7eb; 
     position: relative;
     overflow: hidden;
 }
 
+.skeleton-row {
+    height: 177px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: #e5e7eb; 
+    border: unset;
+}
+
+.skeleton-row td {
+    border: unset;
+}
 
 /* Shimmer layer */
-.review-skeleton::after {
+.shimmer::after {
   content: '';
   position: absolute;
   top: 0;
@@ -64,6 +76,11 @@ section {
 
 table {
     border-collapse: collapse;
+
+    @media (min-width: 1024px) {
+        width: 100%;
+        table-layout: fixed;
+    }
 }
 
 table th,

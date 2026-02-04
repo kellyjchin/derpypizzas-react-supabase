@@ -4,6 +4,7 @@ import { fetchOrdersPaginated } from "../../helpers";
 function RecentOrdersContainer({ user }) {
 
     const [orders, setOrders] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalOrders, setTotalOrders] = useState(0);
 
@@ -23,6 +24,7 @@ function RecentOrdersContainer({ user }) {
             if(ordersData) {
                 setOrders(ordersData.orders);
                 setTotalOrders(ordersData.totalCount);
+                setIsLoading(false);
             }
         }
         getOrders();
@@ -46,8 +48,12 @@ function RecentOrdersContainer({ user }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {orders ?
 
+                    { isLoading ? (
+                        <>
+                            <tr className="shimmer skeleton-row"><td colSpan="6"></td></tr>
+                        </>
+                    ) : (
                         orders.map( (order, index) => {
                             const dateCreated = new Date(order.created_at);
                             const {name, delivery_address, pizza_size, toppings, quantity, total_price} = order;
@@ -63,9 +69,8 @@ function RecentOrdersContainer({ user }) {
                                 </tr>
                             )
                         })
+                    )
 
-                        :
-                        <tr><td>Loading Orders...</td></tr>
                     }
                 </tbody>
             </table>
