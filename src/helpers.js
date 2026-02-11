@@ -60,6 +60,42 @@ export async function fetchReviews(user) {
     }
 }
 
+export async function fetchUserReviewsPaginated({ userEmail, limit, offset }) {
+    if(!userEmail) return;
+
+    const from = offset;
+    const to = offset + limit - 1;
+
+    const { data, error, count } = await supabase
+        .from('Review')
+        .select(`
+            id,
+            review_body,
+            rating,
+            created_at,
+            reviewer,
+            review_likes_dislikes (
+                user_id,
+                like_status
+            )
+        `, {count: 'exact'})
+        .eq('reviewer', userEmail)
+        .order('created_at', {ascending: false})
+        .range(from, to);
+
+    if (error) {
+        console.error('Error fetching data', error);
+    }
+
+    const reviewsWithCounts = data.map(review => {
+        const likeCount = review.review_likes_dislikes.filter(r => r.like_status === 1).length;
+        const dislikeCount = review.review_likes_dislikes.filter(r => r.like_status === -1).length;
+        return { ...review, likeCount, dislikeCount };
+    });
+    reviewsWithCounts.total = count;
+    return reviewsWithCounts;
+}
+
 export async function fetchAllOrders(user) {
     if (user) {
         const { data, error } = await supabase
