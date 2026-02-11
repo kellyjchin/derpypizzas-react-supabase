@@ -12,7 +12,7 @@ function RecentReviewsContainer({ user, isProfilePage, paginationBtns }) {
     const [totalReviews, setTotalReviews] = useState(30);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const reviewsPerPage = 5;
+    const reviewsPerPage = 3;
 
     const offset = (currentPage - 1) * reviewsPerPage;
     const totalPages = Math.ceil(totalReviews / reviewsPerPage);
