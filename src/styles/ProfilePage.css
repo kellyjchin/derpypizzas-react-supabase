@@ -22,7 +22,7 @@
 }
 
 .review-skeleton {
-    height: 160px;         
+    height: 196px;         
     margin-bottom: 1rem;
     border-radius: 8px;
     background-color: #e5e7eb; 
@@ -81,6 +81,10 @@ table {
         width: 100%;
         table-layout: fixed;
     }
+}
+
+.date-created {
+    display: block;
 }
 
 table th,

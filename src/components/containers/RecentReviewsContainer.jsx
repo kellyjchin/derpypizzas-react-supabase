@@ -62,7 +62,7 @@ function RecentReviewsContainer({ user, isProfilePage, paginationBtns }) {
                             username={review.reviewer}
                             body={review.review_body}
                             rating={review.rating}
-                            date={'derp'}
+                            date={review.created_at}
                             reviewId={review.id}
                             user={user}
                             inLikeCount={review.likeCount}

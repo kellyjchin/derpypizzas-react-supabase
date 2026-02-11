@@ -62,6 +62,12 @@ function Review( {username, body, rating, date, reviewId, user, inLikeCount, inD
             setUserLikeStatus(-1); // Update local like status
         }
     };
+    
+    const formattedDate = new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',  
+        day: 'numeric'
+    });
 
     return (
         <div className="review">
@@ -73,6 +79,8 @@ function Review( {username, body, rating, date, reviewId, user, inLikeCount, inD
                 <em>{body}</em>
             </div>
 
+
+
             {
                 !isProfilePage ? 
                 <div className="user-name">
@@ -81,6 +89,8 @@ function Review( {username, body, rating, date, reviewId, user, inLikeCount, inD
                 :
                 ''
             }
+
+            <strong className="date-created">{formattedDate}</strong>
 
             <div className="like-dislike-container">
                 <button
