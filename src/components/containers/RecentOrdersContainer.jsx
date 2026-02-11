@@ -55,11 +55,15 @@ function RecentOrdersContainer({ user }) {
                         </>
                     ) : (
                         orders.map( (order, index) => {
-                            const dateCreated = new Date(order.created_at);
+                            const dateCreated = new Date(order.created_at).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'short',  
+                                day: 'numeric'
+                            });
                             const {name, delivery_address, pizza_size, toppings, quantity, total_price} = order;
                             return(
                                 <tr key={index}>
-                                    <td>{dateCreated.toLocaleDateString()}</td>
+                                    <td>{dateCreated}</td>
                                     <td>{name}</td>
                                     <td>{delivery_address}</td>
                                     <td>{pizza_size}</td>

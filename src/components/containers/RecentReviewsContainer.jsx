@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Review from "../Review";
 // import { supabase } from "../../supabaseClient";
-import { fetchReviews, fetchUserReviewsPaginated } from "../../helpers";
+import { fetchRecentReviewsAllUsers, fetchUserReviewsPaginated } from "../../helpers";
 import { useLocation } from "react-router-dom";
 import ReviewSkeleton from "../ReviewSkeleton";
 
@@ -23,7 +23,7 @@ function RecentReviewsContainer({ user, isProfilePage, paginationBtns }) {
             setIsLoading(true);
             let reviewData;
             if (!isProfilePage) {
-                reviewData = await fetchReviews();
+                reviewData = await fetchRecentReviewsAllUsers();
             }
 
             if (isProfilePage && user?.email) {

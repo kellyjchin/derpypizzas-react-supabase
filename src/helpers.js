@@ -1,63 +1,32 @@
 import { supabase } from "./supabaseClient";
 
-export async function fetchReviews(user) {
-    if (user) {
-        const { data, error } = await supabase
-        .from('Review')
-        .select(`
-            id,
-            review_body,
-            rating,
-            created_at,
-            reviewer,
-            review_likes_dislikes (
-                user_id,
-                like_status
-            )
-        `)
-        .eq('reviewer', user)
-        .order('created_at', {ascending: false})
-        if (error) {
-            console.error('Error fetching data', error);
-        }
-
-        const reviewsWithCounts = data.map(review => {
-            const likeCount = review.review_likes_dislikes.filter(r => r.like_status === 1).length;
-            const dislikeCount = review.review_likes_dislikes.filter(r => r.like_status === -1).length;
-            return { ...review, likeCount, dislikeCount };
-        });
-
-        return reviewsWithCounts;
+export async function fetchRecentReviewsAllUsers(user) {
+    const { data, error } = await supabase
+    .from('Review')
+    .select(`
+        id,
+        review_body,
+        rating,
+        created_at,
+        reviewer,
+        review_likes_dislikes (
+            user_id,
+            like_status
+        )
+    `)
+    .limit(3)
+    .order('created_at', {ascending: false})
+    if (error) {
+        console.error('Error fetching data', error);
     }
 
-    else {
-        const { data, error } = await supabase
-        .from('Review')
-        .select(`
-            id,
-            review_body,
-            rating,
-            created_at,
-            reviewer,
-            review_likes_dislikes (
-                user_id,
-                like_status
-            )
-        `)
-        .limit(3)
-        .order('created_at', {ascending: false})
-        if (error) {
-            console.error('Error fetching data', error);
-        }
+    const reviewsWithCounts = data.map(review => {
+        const likeCount = review.review_likes_dislikes.filter(r => r.like_status === 1).length;
+        const dislikeCount = review.review_likes_dislikes.filter(r => r.like_status === -1).length;
+        return { ...review, likeCount, dislikeCount };
+    });
 
-        const reviewsWithCounts = data.map(review => {
-            const likeCount = review.review_likes_dislikes.filter(r => r.like_status === 1).length;
-            const dislikeCount = review.review_likes_dislikes.filter(r => r.like_status === -1).length;
-            return { ...review, likeCount, dislikeCount };
-        });
-
-        return reviewsWithCounts;
-    }
+    return reviewsWithCounts;
 }
 
 export async function fetchUserReviewsPaginated({ userEmail, limit, offset }) {
