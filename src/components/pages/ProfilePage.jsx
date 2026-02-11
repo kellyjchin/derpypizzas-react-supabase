@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import RecentOrdersContainer from "../containers/RecentOrdersContainer";
 import '../../styles/ProfilePage.css'
 import { fetchRewardBalance } from "../../helpers";
+import RecentReviewsContainer from "../containers/RecentReviewsContainer";
 
 function ProfilePage({ user }) {
     const [rewardBalance, setRewardBalance] = useState(0);
@@ -15,7 +16,7 @@ function ProfilePage({ user }) {
             setRewardBalance(rewardPoints);
         }
         getRewardBalance();
-    }, [user, rewardBalance])
+    }, [user])
 
     return (
         <div className="profile-page">
@@ -28,6 +29,7 @@ function ProfilePage({ user }) {
 
             <div className="profile-page-inner-wrapper">
                 <RecentOrdersContainer user={user}/>
+                <RecentReviewsContainer user={user} isProfilePage={true} paginationBtns={true}/>
             </div>
         </div>
 

@@ -1,29 +1,38 @@
 import { useEffect, useState } from "react";
 import Review from "../Review";
 // import { supabase } from "../../supabaseClient";
-import { fetchReviews } from "../../helpers";
+import { fetchReviews, fetchUserReviewsPaginated } from "../../helpers";
 import { useLocation } from "react-router-dom";
 import ReviewSkeleton from "../ReviewSkeleton";
 
-function RecentReviewsContainer({ user }) {
+function RecentReviewsContainer({ user, isProfilePage, paginationBtns }) {
     // TODO: Trim Body Review if it gets really long. Let's say 100 characters maybe?
-    const locationObj = useLocation();
-    const currentUrl = locationObj.pathname;
-
     const [reviews, setReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [totalReviews, setTotalReviews] = useState(30);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const reviewsPerPage = 5;
+
+    const offset = (currentPage - 1) * reviewsPerPage;
+    const totalPages = Math.ceil(totalReviews / reviewsPerPage);
     useEffect( () => {
         let isMounted = true;
 
         async function getReviews() {
             setIsLoading(true);
             let reviewData;
-            if (currentUrl === "/") {
+            if (!isProfilePage) {
                 reviewData = await fetchReviews();
             }
 
-            if (currentUrl === "/profile" && user?.email) {
-                reviewData = await fetchReviews(user.email);
+            if (isProfilePage && user?.email) {
+                reviewData = await fetchUserReviewsPaginated({
+                    userEmail: user.email,
+                    limit: reviewsPerPage,
+                    offset
+                });
+                setTotalReviews(reviewData.total)
             }
 
             if (isMounted) {
@@ -35,12 +44,11 @@ function RecentReviewsContainer({ user }) {
         return () => {
             isMounted = false;
         };
-    }, [currentUrl, user]);
+    }, [user, currentPage]);
 
     return (
         <div className="reviews-container">
-            { currentUrl === "/" && <h2>Recent Reviews</h2>}
-
+            { isProfilePage ? <h3>Your recent reviews:</h3> : <h2>Recent Reviews</h2>}
             { isLoading ? (
                 <>
                     <ReviewSkeleton/>
@@ -55,17 +63,37 @@ function RecentReviewsContainer({ user }) {
                             body={review.review_body}
                             rating={review.rating}
                             date={'derp'}
-                            currentUrl={currentUrl}
                             reviewId={review.id}
                             user={user}
                             inLikeCount={review.likeCount}
                             inDislikeCount={review.dislikeCount}
+                            isProfilePage={isProfilePage}
                         /> 
                     ))
                 )
+                
             }
+            { paginationBtns && 
+                <div className="btn-container">
+                    <button
+                        onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+                        disabled={currentPage === 1}
+                        className="liked"
+                    >
+                        Previous
+                    </button>
 
-            
+                    <span> Page {currentPage} of {totalPages} </span>
+
+                    <button
+                        onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                        className="liked"
+                    >
+                        Next
+                    </button>
+                </div>
+            }            
         </div>
     );
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
 import '../styles/Review.css'
 
-function Review( {username, body, rating, currentUrl, date, reviewId, user, inLikeCount, inDislikeCount } ) {
+function Review( {username, body, rating, date, reviewId, user, inLikeCount, inDislikeCount, isProfilePage } ) {
 
     const [likeCount, setLikeCount] = useState(inLikeCount);
     const [dislikeCount, setDislikeCount] = useState(inDislikeCount);
@@ -74,7 +74,7 @@ function Review( {username, body, rating, currentUrl, date, reviewId, user, inLi
             </div>
 
             {
-                currentUrl === "/" ? 
+                !isProfilePage ? 
                 <div className="user-name">
                   <strong>Written by: </strong> {username}
                 </div>
