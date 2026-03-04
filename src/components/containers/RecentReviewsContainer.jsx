@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import Review from "../Review";
-// import { supabase } from "../../supabaseClient";
 import { fetchRecentReviewsAllUsers, fetchUserReviewsPaginated } from "../../helpers";
-import { useLocation } from "react-router-dom";
 import ReviewSkeleton from "../ReviewSkeleton";
+import CommentDialog from "../CommentDialog";
 
 function RecentReviewsContainer({ user, isProfilePage, paginationBtns }) {
     // TODO: Trim Body Review if it gets really long. Let's say 100 characters maybe?
+
+    const [selectedReview, setSelectedReview] = useState(null);
+
     const [reviews, setReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [totalReviews, setTotalReviews] = useState(30);
@@ -68,10 +70,11 @@ function RecentReviewsContainer({ user, isProfilePage, paginationBtns }) {
                             inLikeCount={review.likeCount}
                             inDislikeCount={review.dislikeCount}
                             isProfilePage={isProfilePage}
+                            onOpenComments={() => setSelectedReview(review)}
                         /> 
                     ))
                 )
-                
+                        
             }
             { paginationBtns && 
                 <div className="btn-container">
@@ -93,7 +96,13 @@ function RecentReviewsContainer({ user, isProfilePage, paginationBtns }) {
                         Next
                     </button>
                 </div>
-            }            
+            }
+            <CommentDialog
+                isOpen={!!selectedReview}
+                onClose={() => setSelectedReview(null)}
+                review={selectedReview}
+            />   
+         
         </div>
     );
 }

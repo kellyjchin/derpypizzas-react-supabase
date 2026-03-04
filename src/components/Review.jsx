@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
 import '../styles/Review.css'
 
-function Review( {username, body, rating, date, reviewId, user, inLikeCount, inDislikeCount, isProfilePage } ) {
+function Review( {username, body, rating, date, reviewId, user, inLikeCount, inDislikeCount, isProfilePage, onOpenComments } ) {
 
     const [likeCount, setLikeCount] = useState(inLikeCount);
     const [dislikeCount, setDislikeCount] = useState(inDislikeCount);
@@ -103,6 +103,13 @@ function Review( {username, body, rating, date, reviewId, user, inLikeCount, inD
                     disabled={!user || userLikeStatus === -1}
                 >
                     {user && userLikeStatus === -1 ? 'Disliked' : 'Dislike'} ({dislikeCount})
+                </button>
+
+                <button 
+                    className="see-comments-btn"
+                    onClick={onOpenComments}
+                >
+                    See comments
                 </button>
             </div>
         </div>
