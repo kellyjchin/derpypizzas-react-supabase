@@ -8,7 +8,9 @@ export async function fetchRecentReviewsAllUsers(user) {
         review_body,
         rating,
         created_at,
-        reviewer,
+        profiles (
+            email
+        ),
         review_likes_dislikes (
             user_id,
             like_status
@@ -29,12 +31,20 @@ export async function fetchRecentReviewsAllUsers(user) {
     return reviewsWithCounts;
 }
 
-export async function fetchUserReviewsPaginated({ userEmail, limit, offset }) {
-    if(!userEmail) return;
+export async function fetchUserReviewsPaginated({ userId, limit, offset }) {
+    if(!userId) return;
 
+    // first get the profile
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('user_id', userId)
+        .single()
+
+
+    // then with the profile gotten, use it to grab the profile's reviews    
     const from = offset;
-    const to = offset + limit - 1;
-
+    const to = offset + limit - 1;    
     const { data, error, count } = await supabase
         .from('Review')
         .select(`
@@ -42,16 +52,18 @@ export async function fetchUserReviewsPaginated({ userEmail, limit, offset }) {
             review_body,
             rating,
             created_at,
-            reviewer,
+            profiles (
+                email
+            ),
             review_likes_dislikes (
                 user_id,
                 like_status
             )
         `, {count: 'exact'})
-        .eq('reviewer', userEmail)
+        .eq('profile_id', profile.id)
         .order('created_at', {ascending: false})
         .range(from, to);
-
+    
     if (error) {
         console.error('Error fetching data', error);
     }

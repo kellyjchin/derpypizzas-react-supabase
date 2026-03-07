@@ -28,9 +28,9 @@ function RecentReviewsContainer({ user, isProfilePage, paginationBtns }) {
                 reviewData = await fetchRecentReviewsAllUsers();
             }
 
-            if (isProfilePage && user?.email) {
+            if (isProfilePage && user?.id) {
                 reviewData = await fetchUserReviewsPaginated({
-                    userEmail: user.email,
+                    userId: user.id,
                     limit: reviewsPerPage,
                     offset
                 });
@@ -61,7 +61,7 @@ function RecentReviewsContainer({ user, isProfilePage, paginationBtns }) {
                     reviews.map( (review, index) => (
                         <Review
                             key={index}
-                            username={review.reviewer}
+                            username={review.profiles.email}
                             body={review.review_body}
                             rating={review.rating}
                             date={review.created_at}

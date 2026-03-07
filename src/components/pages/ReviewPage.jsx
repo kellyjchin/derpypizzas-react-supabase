@@ -22,8 +22,21 @@ function ReviewPage({ user }) {
         setError(null);
         setSuccessMessage('');
 
+        // Step 1 — Get profile ID from profiles table
+        const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('user_id', user.id)
+            .single();
+
+        if(profileError){
+            console.error('Error fetching profile:', profileError);
+            setError('Could not find user profile.');
+            return;
+        }
+
         const newReview = {
-            reviewer: user.email,
+            profile_id: profile.id,
             review_body: reviewBody,
             rating: rating
         }
@@ -38,7 +51,7 @@ function ReviewPage({ user }) {
         } else {
             setSuccessMessage('Review submitted successfully!');
             setReviewBody('');
-            setRating(''); // Reset rating to default
+            setRating('Could be better'); // Reset rating to default
             navigate('/');
         }
     }
