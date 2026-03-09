@@ -12,7 +12,7 @@ export async function fetchRecentReviewsAllUsers(user) {
             email
         ),
         review_likes_dislikes (
-            user_id,
+            profile_id,
             like_status
         )
     `)
@@ -41,6 +41,7 @@ export async function fetchUserReviewsPaginated({ userId, limit, offset }) {
         .eq('user_id', userId)
         .single()
 
+    if(!profile) return;
 
     // then with the profile gotten, use it to grab the profile's reviews    
     const from = offset;
@@ -56,7 +57,7 @@ export async function fetchUserReviewsPaginated({ userId, limit, offset }) {
                 email
             ),
             review_likes_dislikes (
-                user_id,
+                profile_id,
                 like_status
             )
         `, {count: 'exact'})
