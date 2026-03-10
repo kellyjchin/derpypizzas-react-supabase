@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
 import '../styles/Review.css'
 
-function Review( {username, body, rating, date, reviewId, user, inLikeCount, inDislikeCount, isProfilePage, onOpenComments } ) {
+function Review( {username, body, rating, date, reviewId, user, inLikeCount, inDislikeCount, isProfilePage, profileId, onOpenComments } ) {
 
     const [likeCount, setLikeCount] = useState(inLikeCount);
     const [dislikeCount, setDislikeCount] = useState(inDislikeCount);
@@ -11,11 +11,11 @@ function Review( {username, body, rating, date, reviewId, user, inLikeCount, inD
     useEffect(() => {
         // Check if the current user has already liked or disliked this review
         const fetchUserLikeStatus = async () => {
-          if (user) {
+          if (profileId) {
             const { data, error } = await supabase
               .from('review_likes_dislikes')
               .select('like_status')
-              .eq('user_id', user.id)
+              .eq('profile_id', profileId)
               .eq('review_id', reviewId)
               .single();
     
@@ -33,10 +33,10 @@ function Review( {username, body, rating, date, reviewId, user, inLikeCount, inD
         let { error } = await supabase
         .from('review_likes_dislikes')
         .upsert({
-            user_id: user.id,
+            profile_id: profileId,
             review_id: reviewId,
             like_status: 1
-        }, { onConflict: ['user_id', 'review_id'] });
+        }, { onConflict: ['profile_id', 'review_id'] });
 
         if (!error) {
             setLikeCount(prev => (userLikeStatus === -1 ? prev + 1 : prev + 1)); // Increment the like count
@@ -51,10 +51,10 @@ function Review( {username, body, rating, date, reviewId, user, inLikeCount, inD
         let { error } = await supabase
         .from('review_likes_dislikes')
         .upsert({
-          user_id: user.id,
+          profile_id: profileId,
           review_id: reviewId,
           like_status: -1
-        }, { onConflict: ['user_id', 'review_id'] });
+        }, { onConflict: ['profile_id', 'review_id'] });
 
         if (!error) {
             setDislikeCount(prev => (userLikeStatus === 1 ? prev + 1 : prev + 1)); // Increment the dislike count

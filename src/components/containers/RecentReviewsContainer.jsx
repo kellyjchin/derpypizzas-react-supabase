@@ -3,6 +3,7 @@ import Review from "../Review";
 import { fetchRecentReviewsAllUsers, fetchUserReviewsPaginated } from "../../helpers";
 import ReviewSkeleton from "../ReviewSkeleton";
 import CommentDialog from "../CommentDialog";
+import { supabase } from "../../supabaseClient";
 
 function RecentReviewsContainer({ user, isProfilePage, paginationBtns }) {
     // TODO: Trim Body Review if it gets really long. Let's say 100 characters maybe?
@@ -48,6 +49,25 @@ function RecentReviewsContainer({ user, isProfilePage, paginationBtns }) {
         };
     }, [user, currentPage]);
 
+
+    const [profileId, setProfileId] = useState('');
+    useEffect(() => {
+        const fetchProfile = async () => {
+            if(!user) return;
+
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('id')
+                .eq('user_id', user.id)
+                .single();
+            if(!error && data) {
+                setProfileId(data.id)
+            }
+        }
+
+        fetchProfile();
+    }, [user])
+
     return (
         <div className="reviews-container">
             { isProfilePage ? <h3>Your recent reviews:</h3> : <h2>Recent Reviews</h2>}
@@ -70,6 +90,7 @@ function RecentReviewsContainer({ user, isProfilePage, paginationBtns }) {
                             inLikeCount={review.likeCount}
                             inDislikeCount={review.dislikeCount}
                             isProfilePage={isProfilePage}
+                            profileId={profileId}
                             onOpenComments={() => setSelectedReview(review)}
                         /> 
                     ))
