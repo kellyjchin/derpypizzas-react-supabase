@@ -142,3 +142,38 @@ export async function updateRewardPoints(user, totalPrice, newBalance) {
         return;
     }
 }
+
+export async function fetchCommentsForReview(reviewId) {
+    if(!reviewId) return;
+    const { data, error } = await supabase
+        .from('comments')
+        .select(`
+            id,
+            comment_body,
+            created_at,
+            profiles (
+                email
+            )
+        `)
+        .eq("review_id", reviewId)
+        .order("created_at", { ascending: true });
+
+    if(error) {
+        console.error(error);
+        return;
+    }
+
+    return data;
+}
+
+export async function insertComment(newComment) {
+    if(!newComment) return;
+
+    const { error } = await supabase
+        .from('comments')
+        .insert(newComment)
+
+    if(error) {
+        console.error('Error inserting new comment', error)
+    }
+}

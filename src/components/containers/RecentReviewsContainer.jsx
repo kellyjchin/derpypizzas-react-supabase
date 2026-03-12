@@ -122,6 +122,7 @@ function RecentReviewsContainer({ user, isProfilePage, paginationBtns }) {
                 isOpen={!!selectedReview}
                 onClose={() => setSelectedReview(null)}
                 review={selectedReview}
+                loggedInUser={profileId}
             />   
          
         </div>
