@@ -14,18 +14,18 @@
     column-gap: 8px;
 }
 
-button.like-button, button.dislike-button {
+button.like-button, button.dislike-button, .see-comments-btn {
     background-color: whitesmoke;
     color: #000; 
     border: ridge thin black;
-    font-size: 16px;
+    font-size: 12px;
     cursor: pointer;
     border-radius: 10px;
     padding: 10px;
 }
 
 /* Change color on hover for active users */
-button.like-button:hover, button.dislike-button:hover {
+button.like-button:hover, button.dislike-button:hover, .see-comments-btn:hover {
     color: #000; /* Darker color on hover */
     filter: brightness(85%);
 }

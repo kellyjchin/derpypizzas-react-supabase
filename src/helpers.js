@@ -177,3 +177,5 @@ export async function insertComment(newComment) {
         console.error('Error inserting new comment', error)
     }
 }
+
+// add a comment count on a review

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
 import '../styles/Review.css'
-
+// TODO - make profileID variable accessible everywhere in the app, rather than relying on user
 function Review( {username, body, rating, date, reviewId, user, inLikeCount, inDislikeCount, isProfilePage, profileId, onOpenComments } ) {
 
     const [likeCount, setLikeCount] = useState(inLikeCount);
@@ -109,7 +109,7 @@ function Review( {username, body, rating, date, reviewId, user, inLikeCount, inD
                     className="see-comments-btn"
                     onClick={onOpenComments}
                 >
-                    See comments
+                    Comments
                 </button>
             </div>
         </div>

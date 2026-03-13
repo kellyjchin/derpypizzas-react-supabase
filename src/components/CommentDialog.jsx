@@ -70,9 +70,10 @@ const CommentDialog = ({ isOpen, onClose, review, loggedInUser }) => {
       }}
     >
       <animated.div style={animation}>
+        <button onClick={onClose} style={{ marginTop: '10px', display: 'flex', marginLeft: 'auto'}}>X</button>
         <div className="review-preview">
             <h3>{rating}</h3>
-            <p>{review_body}</p>
+            <p className='m-0'>{review_body}</p>
             <small>
                 Written by {reviewer} on {new Date(created_at).toLocaleDateString()}
             </small>
@@ -86,7 +87,7 @@ const CommentDialog = ({ isOpen, onClose, review, loggedInUser }) => {
               </div>
             ))
           ) : (
-            <p>No comments yet</p>
+            <p className='comment-body mt-1 ps-2'>No comments yet</p>
           )
         }
         <form onSubmit={handleSubmit}>
@@ -103,7 +104,7 @@ const CommentDialog = ({ isOpen, onClose, review, loggedInUser }) => {
           </textarea>
           <input type="submit" value="Post Comment" className="cta"></input>
         </form>
-        <button onClick={onClose} style={{ marginTop: '10px' }}>Close</button>
+
       </animated.div>
     </Modal>
   );
