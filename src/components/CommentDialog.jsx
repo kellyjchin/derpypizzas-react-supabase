@@ -81,9 +81,11 @@ const CommentDialog = ({ isOpen, onClose, review, loggedInUser }) => {
         { comments.length > 0 ? 
           (
             comments.map( (comment, index) => (
-              <div key={comment.id} className='comment-body mt-1 ps-2'> 
-                <p className="m-0">{comment.comment_body}</p>
-                <small>{comment.profiles?.email || "Unknown user"}</small>
+              <div key={comment.id} className='comment-body mt-1 ps-2 pe-2'> 
+                <div className="inner-wrapper">
+                  <p className="m-0">{comment.comment_body}</p>
+                  <small>{comment.profiles?.email || "Unknown user"}</small>
+                </div>
               </div>
             ))
           ) : (

@@ -42,3 +42,15 @@ button.liked, button.disliked {
     font-weight: 700;
     background-color: #388e3c;
 }
+
+
+.comment-body .inner-wrapper {
+    padding-top: 8px;
+    border-top: solid thin #8D6E63
+}
+
+@media (max-width: 600px) {
+    .ReactModal__Content {
+        height: 100%;
+    }
+}
