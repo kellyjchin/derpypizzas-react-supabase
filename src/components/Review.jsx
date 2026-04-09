@@ -105,12 +105,12 @@ function Review( {username, body, rating, date, reviewId, user, inLikeCount, inD
                     {user && userLikeStatus === -1 ? 'Disliked' : 'Dislike'} ({dislikeCount})
                 </button>
 
-                {/* <button 
+                <button 
                     className="see-comments-btn"
                     onClick={onOpenComments}
                 >
                     Comments
-                </button> */}
+                </button>
             </div>
         </div>
     );
